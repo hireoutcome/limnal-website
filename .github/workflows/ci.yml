@@ -20,24 +20,16 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 22
-      - run: >-
+      - run: |
           python3 - <<'PY'
-
           from pathlib import Path
-
           from html.parser import HTMLParser
-
           import subprocess
-
-          files=list(Path('.').rglob('*.html'))
-
+          files = list(Path('.').rglob('*.html'))
           assert files, 'Static HTML source missing'
-
           for file in files:
               HTMLParser().feed(file.read_text())
           for file in Path('.').rglob('*.js'):
-              subprocess.run(['node','--check',str(file)],check=True)
-          print(f'Validated {len(files)} HTML files and local JavaScript
-          syntax')
-
+              subprocess.run(['node', '--check', str(file)], check=True)
+          print(f'Validated {len(files)} HTML files and local JavaScript syntax')
           PY
